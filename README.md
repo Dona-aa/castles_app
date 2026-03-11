@@ -1,42 +1,77 @@
 # sv
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Here’s a clean `README.md` you can use for your Svelte project:
 
-## Creating a project
+````md
+# Svelte Project
 
-If you're seeing this, you've probably already done this step. Congrats!
+This is a Svelte project created with [`sv`](https://github.com/sveltejs/cli).
+
+## Project Setup
+
+To create a new Svelte project, run:
 
 ```sh
-# create a new project
 npx sv create my-app
-```
+````
 
-To recreate this project with the same configuration:
+To recreate this project with the same configuration, run:
 
 ```sh
-# recreate this project
 npx sv@0.12.5 create --template minimal --no-types --add prettier eslint --install npm .
 ```
 
-## Developing
+## Getting Started
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+First, install the dependencies:
+
+```sh
+npm install
+```
+
+Then start the development server:
 
 ```sh
 npm run dev
+```
 
-# or start the server and open the app in a new browser tab
+To automatically open the app in your browser:
+
+```sh
 npm run dev -- --open
 ```
 
-## Building
+## Building for Production
 
-To create a production version of your app:
+To create a production build, run:
 
 ```sh
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+To preview the production build locally:
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```sh
+npm run preview
+```
+
+## Deployment
+
+To deploy your app, you may need to install an appropriate [Svelte adapter](https://svelte.dev/docs/kit/adapters) depending on your hosting environment.
+
+## Tools Included
+
+This project was set up with:
+
+* Svelte
+* Prettier
+* ESLint
+
+## Notes
+
+This project uses a minimal template and does not include TypeScript by default.
+
+```
+
+If you want, I can also make it look more professional, like a real GitHub README with features, folder structure, and badges.
+```
