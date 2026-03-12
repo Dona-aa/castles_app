@@ -12,7 +12,7 @@ export async function GET({params}) {
 }
 
 
-export async function DELETE({params}) {
+export async function DELETE({ params, request }) {
     const id = params.id;
     const [result] = await pool.query('DELETE FROM castles WHERE id = ?', [id]);
     

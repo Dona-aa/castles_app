@@ -1,17 +1,43 @@
-import pool from '$lib/server/database.js'; 
+import pool from '$lib/server/database.js';
+import { API_USER, API_PASSWORD } from '$env/static/private';
+
+function checkAuth(request) {
+    const auth = request.headers.get('Authorization');
+
+    if (!auth || !auth.startsWith('Basic ')) {
+        return false;
+    }
+    const base64 = auth.slice(6);
+    const decoded = atob(base64);
+    const [user, password] = decoded.split(':');
+    return user === API_USER && password === API_PASSWORD;
+}
 
 export async function GET() {
     const [rows] = await pool.query('SELECT * FROM castles');
     return Response.json(rows);
 }
 
-
 export async function POST({ request }) {
+    if (!checkAuth(request)) {
+        return Response.json(
+            { error: 'Unauthorized' },
+            { status: 401 }
+        );
+    }
 
-    const{ name, location, description} = await request.json();
+    const { name, location, description } = await request.json();
 
-    const [result] = await pool.query('INSERT INTO castles (name, location, description) VALUES (?, ?, ?)', [name, location, description]);
-    
-    return Response.json({message: "Castle created successfully", status: 201});
+    const [result] = await pool.query(
+        'INSERT INTO castles (name, location, description) VALUES (?, ?, ?)',
+        [name, location, description]
+    );
 
+    return Response.json(
+        {
+            message: 'Castle created successfully',
+            id: result.insertId
+        },
+        { status: 201 }
+    );
 }
