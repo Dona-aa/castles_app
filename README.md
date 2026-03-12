@@ -1,13 +1,11 @@
+````md
 # sv
 
-Here’s a clean `README.md` you can use for your Svelte project:
+A minimal Svelte project bootstrapped with [`sv`](https://github.com/sveltejs/cli).
 
-````md
-# Svelte Project
+This project was created using the Svelte CLI with a minimal setup. It includes Svelte, ESLint, and Prettier, and it does not use TypeScript.
 
-This is a Svelte project created with [`sv`](https://github.com/sveltejs/cli).
-
-## Project Setup
+## Create a New Project
 
 To create a new Svelte project, run:
 
@@ -15,41 +13,47 @@ To create a new Svelte project, run:
 npx sv create my-app
 ````
 
+## Recreate This Project
+
 To recreate this project with the same configuration, run:
 
 ```sh
 npx sv@0.12.5 create --template minimal --no-types --add prettier eslint --install npm .
 ```
 
-## Getting Started
+## Install Dependencies
 
-First, install the dependencies:
+Before running the project, install the dependencies:
 
 ```sh
 npm install
 ```
 
-Then start the development server:
+## Run the Development Server
+
+Start the local development server with:
 
 ```sh
 npm run dev
 ```
 
-To automatically open the app in your browser:
+To open the app automatically in your browser:
 
 ```sh
 npm run dev -- --open
 ```
 
-## Building for Production
+## Build for Production
 
-To create a production build, run:
+To create a production-ready build, run:
 
 ```sh
 npm run build
 ```
 
-To preview the production build locally:
+## Preview the Production Build
+
+To preview the built project locally, run:
 
 ```sh
 npm run preview
@@ -57,21 +61,25 @@ npm run preview
 
 ## Deployment
 
-To deploy your app, you may need to install an appropriate [Svelte adapter](https://svelte.dev/docs/kit/adapters) depending on your hosting environment.
+To deploy this project, you may need to install a suitable [Svelte adapter](https://svelte.dev/docs/kit/adapters) depending on your target hosting platform.
 
-## Tools Included
+## Project Structure
 
-This project was set up with:
+A typical structure for this project looks like this:
 
-* Svelte
-* Prettier
-* ESLint
+```text
+.
+├── src
+├── static
+├── package.json
+├── svelte.config.js
+├── vite.config.js
+└── README.md
+```
 
 ## Notes
 
-This project uses a minimal template and does not include TypeScript by default.
+This project uses the minimal Svelte template and does not include TypeScript by default.
 
 ```
-
-If you want, I can also make it look more professional, like a real GitHub README with features, folder structure, and badges.
 ```
