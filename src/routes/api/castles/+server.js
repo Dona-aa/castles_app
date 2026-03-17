@@ -7,9 +7,11 @@ function checkAuth(request) {
     if (!auth || !auth.startsWith('Basic ')) {
         return false;
     }
+
     const base64 = auth.slice(6);
     const decoded = atob(base64);
     const [user, password] = decoded.split(':');
+
     return user === API_USER && password === API_PASSWORD;
 }
 
@@ -20,13 +22,25 @@ export async function GET() {
 
 export async function POST({ request }) {
     if (!checkAuth(request)) {
-        return Response.json(
-            { error: 'Unauthorized' },
-            { status: 401 }
-        );
+        return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { name, location, description } = await request.json();
+    let data;
+
+    try {
+        data = await request.json();
+    } catch {
+        return Response.json({ error: 'Invalid JSON' }, { status: 400 });
+    }
+
+    const { name, location, description } = data;
+
+    if (!name || !location || !description) {
+        return Response.json(
+            { error: 'Name, location and description are required' },
+            { status: 400 }
+        );
+    }
 
     const [result] = await pool.query(
         'INSERT INTO castles (name, location, description) VALUES (?, ?, ?)',

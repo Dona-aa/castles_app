@@ -16,8 +16,7 @@ function checkAuth(request) {
 }
 
 export async function GET({ params }) {
-    const id = params.id;
-    const [rows] = await pool.query('SELECT * FROM castles WHERE id = ?', [id]);
+    const [rows] = await pool.query('SELECT * FROM castles WHERE id = ?', [params.id]);
 
     if (rows.length === 0) {
         return Response.json({ message: 'Castle not found' }, { status: 404 });
@@ -26,32 +25,31 @@ export async function GET({ params }) {
     return Response.json(rows[0]);
 }
 
-export async function DELETE({ params, request }) {
-    if (!checkAuth(request)) {
-        return Response.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const id = params.id;
-    const [result] = await pool.query('DELETE FROM castles WHERE id = ?', [id]);
-
-    if (result.affectedRows === 0) {
-        return Response.json({ message: 'Castle not found' }, { status: 404 });
-    }
-
-    return Response.json({ message: 'Castle deleted successfully' });
-}
-
 export async function PUT({ request, params }) {
     if (!checkAuth(request)) {
         return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const id = params.id;
-    const { name, location, description } = await request.json();
+    let data;
+
+    try {
+        data = await request.json();
+    } catch {
+        return Response.json({ error: 'Invalid JSON' }, { status: 400 });
+    }
+
+    const { name, location, description } = data;
+
+    if (!name || !location || !description) {
+        return Response.json(
+            { error: 'Name, location and description are required' },
+            { status: 400 }
+        );
+    }
 
     const [result] = await pool.query(
         'UPDATE castles SET name = ?, location = ?, description = ? WHERE id = ?',
-        [name, location, description, id]
+        [name, location, description, params.id]
     );
 
     if (result.affectedRows === 0) {
@@ -59,4 +57,18 @@ export async function PUT({ request, params }) {
     }
 
     return Response.json({ message: 'Castle updated successfully' });
+}
+
+export async function DELETE({ request, params }) {
+    if (!checkAuth(request)) {
+        return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const [result] = await pool.query('DELETE FROM castles WHERE id = ?', [params.id]);
+
+    if (result.affectedRows === 0) {
+        return Response.json({ message: 'Castle not found' }, { status: 404 });
+    }
+
+    return Response.json({ message: 'Castle deleted successfully' });
 }
