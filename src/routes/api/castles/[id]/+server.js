@@ -1,5 +1,5 @@
 import pool from '$lib/server/database.js';
-import { API_USER, API_PASS } from '$env/static/private';
+import { API_USER, API_PASSWORD } from '$env/static/private';
 
 function checkAuth(request) {
     const auth = request.headers.get('authorization');
@@ -12,7 +12,7 @@ function checkAuth(request) {
     const decoded = atob(base64);
     const [user, pass] = decoded.split(':');
 
-    return user === API_USER && pass === API_PASS;
+    return user === API_USER && pass === API_PASSWORD;
 }
 
 export async function GET({ params }) {
