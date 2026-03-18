@@ -28,7 +28,7 @@ export async function GET({ params }) {
     }
 
     // Return the found castle
-    return Response.json(rows[0]);
+    return Response.json(rows[0], { status: 200 });
 }
 
 export async function PUT({ request, params }) {
@@ -37,17 +37,8 @@ export async function PUT({ request, params }) {
         return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    let data;
-
-    try {
-        // Read the JSON body from the request
-        data = await request.json();
-    } catch {
-        // Return an error if JSON is invalid
-        return Response.json({ error: 'Invalid JSON' }, { status: 400 });
-    }
-
-    const { name, location, description } = data;
+    const {id} = params;
+    const { name, location, description } = await request.json();
 
     // Check if all required fields are given
     if (!name || !location || !description) {
@@ -60,7 +51,7 @@ export async function PUT({ request, params }) {
     // Update the castle in the database
     const [result] = await pool.query(
         'UPDATE castles SET name = ?, location = ?, description = ? WHERE id = ?',
-        [name, location, description, params.id]
+        [name, location, description, id]
     );
 
     // Return 404 if no castle was updated
@@ -69,7 +60,7 @@ export async function PUT({ request, params }) {
     }
 
     // Return success message
-    return Response.json({ message: 'Castle updated successfully' });
+    return Response.json({ message: 'Castle updated successfully' }, { status: 200 });
 }
 
 export async function DELETE({ request, params }) {

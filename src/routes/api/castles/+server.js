@@ -32,17 +32,7 @@ export async function POST({ request }) {
         return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    let data;
-
-    try {
-        // Read JSON body from the request
-        data = await request.json();
-    } catch {
-        // Return error if JSON is invalid
-        return Response.json({ error: 'Invalid JSON' }, { status: 400 });
-    }
-
-    const { name, location, description } = data;
+    const { name, location, description } = await request.json();
 
     // Check if all fields are filled
     if (!name || !location || !description) {
